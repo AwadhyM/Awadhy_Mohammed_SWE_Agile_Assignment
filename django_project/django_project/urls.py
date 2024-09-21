@@ -16,9 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from knowledge_bank import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     # Route to knowledge bank homepage
     path("knowledge_bank/", include("knowledge_bank.urls"), name="knowledge-bank-home"),
+    # Route to register page
+    path("register/", views.register, name="register"),
 ]
