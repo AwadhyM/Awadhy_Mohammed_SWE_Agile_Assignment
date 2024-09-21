@@ -1,0 +1,12 @@
+{% extends "knowledge_bank/base.html" %}
+{% block content %}
+		{% for article in articles %}
+		<h2> Knowledge Article </h2>
+		<p>By {{article.author}}<p>
+		<p>{{article.role}}<p>
+		<p>{{article.content}}<p>
+		<p>Posted on: {{article.date}}</p>
+		{% endfor %}
+{% endblock content %}
+	</body>
+</html>
