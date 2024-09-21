@@ -1,11 +1,16 @@
 {% extends "knowledge_bank/base.html" %}
 {% block content %}
 		{% for article in articles %}
-		<h2> Knowledge Article </h2>
-		<p>By {{article.author}}<p>
-		<p>{{article.role}}<p>
-		<p>{{article.content}}<p>
-		<p>Posted on: {{article.date}}</p>
+		<article class="media content-section">
+				  <div class="media-body">
+					<div class="article-metadata">
+					  <a class="mr-2" href="#">{{ article.author }}</a>
+					  <small class="text-muted">{{ article.date }}</small>
+					</div>
+					<h2><a class="article-title" href="#">{{ article.title }}</a></h2>
+					<p class="article-content">{{ article.content }}</p>
+				  </div>
+				</article>
 		{% endfor %}
 {% endblock content %}
 	</body>
