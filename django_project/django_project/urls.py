@@ -15,8 +15,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    # Route to knowledge bank homepage
+    path("knowledge_bank/", include("knowledge_bank.urls"), name="knowledge-bank-home"),
 ]
