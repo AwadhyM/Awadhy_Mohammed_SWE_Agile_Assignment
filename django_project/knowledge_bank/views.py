@@ -33,7 +33,7 @@ class ArticleListView(ListView):
     template_name = "knowledge_bank/home.html"
     model = Article
     context_object_name = "articles"
-    ordering = ["date_posted"]
+    ordering = ["-date_posted"]
 
 
 class ArticleDetailView(DetailView):
