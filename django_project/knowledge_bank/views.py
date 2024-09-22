@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from .forms import UserRegistrationForm
 from .models import Article
 
@@ -21,10 +23,26 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get("username")
-            messages.success(request, f"Account successfully created for {username}")
-            return redirect("knowledge-bank-home")
+            messages.success(
+                request,
+                f"Account successfully created for {username}. You can now login using the form below.",
+            )
+            return redirect("login")
     else:
         form = UserRegistrationForm()
 
     context = {"form": form}
     return render(request, "knowledge_bank/register.html", context)
+
+
+@login_required
+def profile(request):
+    """Routes user to their profile page. If they are logged in."""
+    return render(request, "knowledge_bank/profile.html")
+
+
+@login_required
+def user_logout(request):
+    """Routes user to logout page"""
+    logout(request)
+    return render(request, "knowledge_bank/logout.html", {})

@@ -15,6 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from django.contrib import admin
 from django.urls import path, include
 from knowledge_bank import views
 
@@ -24,4 +26,17 @@ urlpatterns = [
     path("knowledge_bank/", include("knowledge_bank.urls"), name="knowledge-bank-home"),
     # Route to register page
     path("register/", views.register, name="register"),
+    # Route to user's profile page
+    path("profile/", views.profile, name="profile"),
+    # Route to login page
+    # redirect_authenticated_user argument ensures that already logged in users are redirected when they try to access login/
+    path(
+        "login/",
+        auth_views.LoginView.as_view(
+            template_name="knowledge_bank/login.html", redirect_authenticated_user=True
+        ),
+        name="login",
+    ),
+    # Route to logout page
+    path("logout/", views.user_logout, name="logout"),
 ]
