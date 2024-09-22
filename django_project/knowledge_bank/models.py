@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from PIL import Image
 
 
 class Article(models.Model):
@@ -44,3 +45,13 @@ class Profile(models.Model):
     bio = models.CharField(max_length=250)
     image = models.ImageField(default="default.jpg", upload_to="profile_pics")
     office = models.CharField(max_length=4, choices=valid_offices)
+
+    def __save__(self):
+        """Overrides default save method."""
+        super().save()
+
+        img = Image.open(self.image.path)
+        if img.height > 250 or img.width > 250:
+            output_size = (250, 250)
+            img.thumbnail(output_size)
+            img.save(self.image.path)

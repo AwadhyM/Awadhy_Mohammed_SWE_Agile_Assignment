@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import Profile
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -30,3 +31,31 @@ class UserRegistrationForm(UserCreationForm):
 
         model = User
         fields = ["username", "email", "password1", "password2"]
+
+
+class UserUpdateForm(forms.ModelForm):
+    """
+    A form updating an existing user. Inherits from Djangos UserRegistrationForm.
+
+    This form includes all the standard fields from UserRegistrationForm and can be customised
+    to include additional fields or validation logic as needed.
+    """
+
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ["username", "email"]
+
+
+class ProfileUpdateForm(forms.ModelForm):
+    """
+    A form for updating a users profile. Inherits from ModelForm.
+
+    This form includes all the standard fields from ModelForm, and can be extended to
+    include additional fields or validation logic as needed.
+    """
+
+    class Meta:
+        model = Profile
+        fields = ["image", "bio", "office"]
