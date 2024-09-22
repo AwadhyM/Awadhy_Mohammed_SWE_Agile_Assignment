@@ -18,3 +18,29 @@ class Article(models.Model):
     def __str__(self):
         """Displays model instance attributes in human readable form"""
         return f"{self.title} by {self.author} published on {self.date_posted} and last_modified {self.last_modified}"
+
+
+class Profile(models.Model):
+    """
+    Profile stores biographical information of a user.
+
+    This model has a one to one relationship with Django's default User model.
+
+    Attributes:
+        user (User): A one-to-one relationship with the User model.
+        bio: A short description of the user.
+        image: Stores the users profile image. If none uploaded then default is used.
+        office: The office that the user is based in.
+    """
+
+    valid_offices = [
+        ("CAM", "Cambridge"),
+        ("MANC", "Manchester"),
+        ("SHEF", "Sheffield"),
+        ("BRIS", "Bristol"),
+    ]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.CharField(max_length=250)
+    image = models.ImageField(default="default.jpg", upload_to="profile_pics")
+    office = models.CharField(max_length=4, choices=valid_offices)
