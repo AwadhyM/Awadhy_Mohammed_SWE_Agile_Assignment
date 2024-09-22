@@ -9,7 +9,7 @@
 					  <small class="text-muted"> Published on: {{ article.date_posted | date:"d F Y"}}</small></div>
 					  <div><small class="text-muted"> Last modified: {{ article.last_modified | date:"d F Y"}}</small><div/>
 					</div>
-					<h2><a class="article-title" href="#">{{ article.title }}</a></h2>
+					<h2><a class="article-title" href="{% url 'article-detail' article.id %}">{{ article.title }}</a></h2>
 					<p class="article-content">{{ article.content }}</p>
 				  </div>
 				</article>

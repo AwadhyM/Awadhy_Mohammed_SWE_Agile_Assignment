@@ -1,8 +1,10 @@
+from os import walk
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.views.generic import ListView, DetailView
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from .models import Article
 
@@ -13,6 +15,23 @@ def home(request):
 
     # Load html for home page
     return render(request, "knowledge_bank/home.html", context)
+
+
+class ArticleListView(ListView):
+    """Routes user to page displaying all records. This is achieved through
+    the use of Django's ListView Class."""
+
+    template_name = "knowledge_bank/home.html"
+    model = Article
+    context_object_name = "articles"
+    ordering = ["date_posted"]
+
+
+class ArticleDetailView(DetailView):
+    """Routes user to page displaying a selected record. This is achieved through
+    the use of Django's DetailView Class."""
+
+    model = Article
 
 
 def register(request):
