@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 from PIL import Image
 
 
@@ -19,6 +20,10 @@ class Article(models.Model):
     def __str__(self):
         """Displays model instance attributes in human readable form"""
         return f"{self.title} by {self.author} published on {self.date_posted} and last_modified {self.last_modified}"
+
+    def get_absolute_url(self):
+        """Gives us path to ArticleDetail route"""
+        return reverse("article-detail", kwargs={"pk": self.pk})
 
 
 class Profile(models.Model):

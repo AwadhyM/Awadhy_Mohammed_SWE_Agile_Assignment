@@ -3,8 +3,17 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib.auth import logout
-from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
+from django.views.generic.edit import CreateView
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from .models import Article
 
@@ -52,6 +61,46 @@ def register(request):
 
     context = {"form": form}
     return render(request, "knowledge_bank/register.html", context)
+
+
+class ArticleCreateView(LoginRequiredMixin, CreateView):
+    """User is able to create an Article"""
+
+    model = Article
+    fields = ["title", "content"]
+
+    def form_valid(self, form):
+        # Set the author first
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """User is able to create an Article"""
+
+    model = Article
+    fields = ["title", "content"]
+
+    def form_valid(self, form):
+        # Set the author first
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        article = self.get_object()
+        if self.request.user == article.author:
+            return True
+        else:
+            return False
+
+
+class ArticleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Article
+    success_url = "/"
+
+    def test_func(self):
+        article = self.get_object()
+        return self.request.user.is_superuser
 
 
 @login_required

@@ -41,6 +41,7 @@ urlpatterns = [
     ),
     # Route to logout page
     path("logout/", views.user_logout, name="logout"),
+    path("", include("knowledge_bank.urls")),
 ]
 
 # If we are currently in debug mode. Then this is how we add media to our url patterns

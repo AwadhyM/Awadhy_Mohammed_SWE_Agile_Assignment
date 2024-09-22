@@ -6,8 +6,14 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 """
 from django.contrib import admin
 from django.urls import path
+from .views import (
+    ArticleCreateView,
+    ArticleListView,
+    ArticleDetailView,
+    ArticleUpdateView,
+    ArticleDeleteView,
+)
 from . import views
-from .views import ArticleListView, ArticleDetailView
 
 urlpatterns = [
     # Route to home page
@@ -16,4 +22,10 @@ urlpatterns = [
     path("", ArticleListView.as_view(), name="knowledge-bank-home"),
     # Route to article detail view
     path("article/<int:pk>", ArticleDetailView.as_view(), name="article-detail"),
+    # Route to page for creating a new article
+    path("article/new/", ArticleCreateView.as_view(), name="article-create"),
+    # Route to page for updating a new article
+    path("article/update/<int:pk>", ArticleUpdateView.as_view(), name="article-update"),
+    # Route to page for deleting an article
+    path("article/<int:pk>/delete", ArticleDeleteView.as_view(), name="article-delete"),
 ]
