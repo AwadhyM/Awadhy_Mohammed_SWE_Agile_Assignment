@@ -53,12 +53,6 @@ class Profile(models.Model):
         user : User
                         A one-to-one relationship with the User model.
 
-        first_name: str
-                        The users first name.
-
-                second_name: str
-                        The usrs second name.
-
         bio: str
                         A short description of the user.
 
@@ -87,8 +81,6 @@ class Profile(models.Model):
     ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=25, null=True, blank=True, default=None)
-    second_name = models.CharField(max_length=25, null=True, blank=True, default=None)
     bio = models.CharField(max_length=250)
     role = models.CharField(max_length=4, choices=valid_roles, default="SWE")
     image = models.ImageField(default="default.jpg", upload_to="profile_pics")

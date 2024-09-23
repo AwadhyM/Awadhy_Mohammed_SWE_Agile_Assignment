@@ -8,8 +8,10 @@
 			<a href="{% url 'profile-modify' %}" class="btn btn-primary border border-white ml-3"> Update Profile </a>
 			{% endif %}
           <h2 class="account-heading">{{ object.user.username }}</h2>
-          <p class="text-secondary">{{ object.user.email }}</p>
-          <p class="text-secondary">{{ object.bio }}</p>
+          <p class="text-secondary">Email: {{ object.user.email }}</p>
+          <p class="text-secondary">About me: {{ object.bio }}</p>
+          <p class="text-secondary">Job Title: {{ object.role }}</p>
+          <p class="text-secondary">Office: {{ object.office }}</p>
         </div>
       </div>
     </div>
