@@ -11,8 +11,8 @@ from django.views.generic import (
     DeleteView,
 )
 from django.views.generic.edit import CreateView
-from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
-from .models import Article, Profile
+from .forms import CustomUserRegistrationForm, CustomUserChangeForm
+from .models import Article, CustomUser
 
 
 class ArticleListView(ListView):
@@ -148,7 +148,7 @@ class ProfileDetailView(DetailView):
                     The template that contains html and css code for display of the records.
     """
 
-    model = Profile
+    model = CustomUser
     template_name = "knowledge_bank/profile.html"
 
     def get_object(self):
@@ -156,7 +156,7 @@ class ProfileDetailView(DetailView):
         user_id = self.kwargs.get("userid")
 
         try:
-            return Profile.objects.get(user__id=user_id)
+            return CustomUser.objects.get(id=user_id)
         except:
             messages.error(self.request, f"User could not be found")
             redirect("/")
@@ -166,20 +166,17 @@ class ProfileDetailView(DetailView):
 def profile_modify(request):
     """Routes user to their profile page. If they are logged in."""
     if request.method == "POST":
-        user_form = UserUpdateForm(request.POST, instance=request.user)
-        profile_form = ProfileUpdateForm(
-            request.POST, request.FILES, instance=request.user.profile
+        user_form = CustomUserChangeForm(
+            request.POST, request.FILES, instance=request.user
         )
-        if user_form.is_valid() and profile_form.is_valid():
+        if user_form.is_valid():
             user_form.save()
-            profile_form.save()
             messages.success(request, f"Account successfully updated.")
             return redirect("profile-modify")
     else:
-        user_form = UserUpdateForm(instance=request.user)
-        profile_form = ProfileUpdateForm(instance=request.user.profile)
+        user_form = CustomUserChangeForm(instance=request.user)
 
-    context = {"user_form": user_form, "profile_form": profile_form}
+    context = {"user_form": user_form}
 
     return render(request, "knowledge_bank/profile_modify.html", context)
 
@@ -195,7 +192,7 @@ def register(request):
     """Routes user to registration page where they can register an account"""
 
     if request.method == "POST":
-        form = UserRegistrationForm(request.POST)
+        form = CustomUserRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get("username")
@@ -205,7 +202,7 @@ def register(request):
             )
             return redirect("login")
     else:
-        form = UserRegistrationForm()
+        form = CustomUserRegistrationForm()
 
     context = {"form": form}
     return render(request, "knowledge_bank/register.html", context)

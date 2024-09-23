@@ -28,7 +28,7 @@
             <!-- Navbar Right Side -->
             <div class="navbar-nav ms-auto">
 				{% if user.is_authenticated %}
-				<a href="{% url 'profile-detail' user.id %}" class="btn btn-primary border border-white mr-3"> <img src="{{ user.profile.image.url }}" class="rounded-circle" width="30" height="30"> View Profile</a>
+				<a href="{% url 'profile-detail' user.id %}" class="btn btn-primary border border-white mr-3"> <img src="{{ user.image.url }}" class="rounded-circle" width="30" height="30"> View Profile</a>
 				<a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
 				{% else %}
 				<a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
