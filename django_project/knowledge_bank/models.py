@@ -20,8 +20,8 @@ class CustomUser(AbstractUser):
         ("SR", "Senior Software Engineer"),
         ("ST", "Staff Software Engineer"),
     ]
-    first_name = models.CharField(max_length=25, blank=True, null=True)
-    second_name = models.CharField(max_length=25, blank=True, null=True)
+    first_name = models.CharField(max_length=25, blank=False, null=False)
+    second_name = models.CharField(max_length=25, blank=False, null=False)
     joining_date = models.DateTimeField(auto_now_add=True)
     bio = models.CharField(max_length=250, default="User hasn't written a bio yet!")
     image = models.ImageField(default="default.jpg", upload_to="profile_pics")
