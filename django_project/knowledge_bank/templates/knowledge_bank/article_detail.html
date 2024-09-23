@@ -4,9 +4,13 @@
     <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
     <div class="media-body">
       <div class="article-metadata">
-        <a class="mr-2" href="#">{{ object.author }}</a>
+		  <a class="mr-2" href="{% url 'profile-detail' object.author.id%}">{{ object.author }}</a>
         <small class="text-muted">{{ object.date_created|date:"F d, Y" }}</small>
       </div>
+		{% if user.is_staff %}
+		<a href="{% url 'article-delete' article.id %}" class="btn btn-danger border border-white ml-3"> Delete Article </a>
+		{% endif %}
+		<br></br>
         {% if object.author == user %}
 		<a href="{% url 'article-update' object.id %}" class="btn btn-primary border border-white ml-3"> Update Article </a>
         {% endif %}
