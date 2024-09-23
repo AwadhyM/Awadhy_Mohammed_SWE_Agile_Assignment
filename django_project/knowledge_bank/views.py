@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
     DetailView,
@@ -15,7 +16,7 @@ from django.views.generic import (
 )
 from django.views.generic.edit import CreateView
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
-from .models import Article
+from .models import Article, Profile
 
 
 def home(request):
@@ -104,7 +105,7 @@ class ArticleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 @login_required
-def profile(request):
+def profile_modify(request):
     """Routes user to their profile page. If they are logged in."""
     if request.method == "POST":
         user_form = UserUpdateForm(request.POST, instance=request.user)
@@ -115,14 +116,14 @@ def profile(request):
             user_form.save()
             profile_form.save()
             messages.success(request, f"Account successfully updated.")
-            return redirect("profile")
+            return redirect("profile-modify")
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
 
     context = {"user_form": user_form, "profile_form": profile_form}
 
-    return render(request, "knowledge_bank/profile.html", context)
+    return render(request, "knowledge_bank/profile_modify.html", context)
 
 
 @login_required

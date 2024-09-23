@@ -28,8 +28,8 @@ urlpatterns = [
     path("knowledge_bank/", include("knowledge_bank.urls"), name="knowledge-bank-home"),
     # Route to register page
     path("register/", views.register, name="register"),
-    # Route to user's profile page
-    path("profile/", views.profile, name="profile"),
+    # Route to form for modifying user profile
+    path("profile_modify/", views.profile_modify, name="profile-modify"),
     # Route to login page
     # redirect_authenticated_user argument ensures that already logged in users are redirected when they try to access login/
     path(
