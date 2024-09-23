@@ -1,12 +1,8 @@
-from os import walk
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
     DetailView,
@@ -20,8 +16,23 @@ from .models import Article, Profile
 
 
 class ArticleListView(ListView):
-    """Routes user to page displaying all records. This is achieved through
-    the use of Django's ListView Class."""
+    """
+    Displays a list of articles.
+
+    This view inherits from Django's builtin ListView. It has been
+    customised to order articles based on date posted with the most
+    recent at the top.
+
+    Attributes:
+            model : Model
+                    The model entities that will be viewed.
+
+            template_name : Str
+                    The template that contains html and css code for display of the records.
+
+            context_object_name : Str
+                    The context variable used for list of objects.
+    """
 
     template_name = "knowledge_bank/home.html"
     model = Article
@@ -30,56 +41,69 @@ class ArticleListView(ListView):
 
 
 class ArticleDetailView(DetailView):
-    """Routes user to page displaying a selected record. This is achieved through
-    the use of Django's DetailView Class."""
+    """
+    Displays a single article for view.
+
+    Attributes:
+            model : Model
+                    The model entity that will be viewed.
+    """
 
     model = Article
 
 
-def register(request):
-    """Routes user to registration page where they can register an account"""
-
-    if request.method == "POST":
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get("username")
-            messages.success(
-                request,
-                f"Account successfully created for {username}. You can now login using the form below.",
-            )
-            return redirect("login")
-    else:
-        form = UserRegistrationForm()
-
-    context = {"form": form}
-    return render(request, "knowledge_bank/register.html", context)
-
-
 class ArticleCreateView(LoginRequiredMixin, CreateView):
-    """User is able to create an Article"""
+    """
+        Displays a single article for view.
+
+    This view requires the user to be logged in to access it.
+    It displays a form for creating a new MyModel instance and handles
+    the form submission.
+
+    Attributes:
+        model : Model
+            The model that this view will create an instance of.
+
+        fields : list(str)
+            The fields of the model to be displayed in the form.
+    """
 
     model = Article
     fields = ["title", "content"]
 
     def form_valid(self, form):
-        # Set the author first
+        """Function handles how form is saved"""
         form.instance.author = self.request.user
         return super().form_valid(form)
 
 
 class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    """User is able to create an Article"""
+    """
+        View for updating an existing article.
+
+    Inherits from:
+        LoginRequiredMixin: Ensures that the user is logged in.
+        UserPassesTestMixin: Ensures that the user passes a custom test.
+        UpdateView: Provides the ability to update an existing object.
+
+    Attributes:
+        model : Model
+                        The model that this view will act upon.
+        fields : list(str)
+                        The fields of the model to be displayed in the form.
+
+    """
 
     model = Article
     fields = ["title", "content"]
 
     def form_valid(self, form):
-        # Set the author first
+        """Function handles how form is saved"""
         form.instance.author = self.request.user
         return super().form_valid(form)
 
     def test_func(self):
+        """Function ensures that only the author of article can edit an article"""
         article = self.get_object()
         if self.request.user == article.author:
             return True
@@ -88,22 +112,47 @@ class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 class ArticleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """
+        View for deleting an existing article.
+
+    Inherits from:
+        LoginRequiredMixin: Ensures that the user is logged in.
+        UserPassesTestMixin: Ensures that the user passes a custom test.
+        DeleteView: Provides the ability to delete an existing object.
+
+    Attributes:
+        model : Model
+                        The model that this view will act upon.
+        success_url : str
+                    Where the user is redirected to after completion of delete.
+
+    """
+
     model = Article
     success_url = "/"
 
     def test_func(self):
-        article = self.get_object()
+        """Ensures that user has admin status. As this is a requirement for deletion."""
         return self.request.user.is_superuser
 
 
 class ProfileDetailView(DetailView):
-    """Routes user to page displaying a selected record. This is achieved through
-    the use of Django's DetailView Class."""
+    """
+    Displays a single profile for view.
+
+    Attributes:
+            model : Model
+                    The model entity that will be viewed.
+
+            template_name : Str
+                    The template that contains html and css code for display of the records.
+    """
 
     model = Profile
     template_name = "knowledge_bank/profile.html"
 
     def get_object(self):
+        """Gets the user id which is used in the url."""
         user_id = self.kwargs.get("userid")
 
         try:
@@ -140,3 +189,23 @@ def user_logout(request):
     """Routes user to logout page"""
     logout(request)
     return render(request, "knowledge_bank/logout.html", {})
+
+
+def register(request):
+    """Routes user to registration page where they can register an account"""
+
+    if request.method == "POST":
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get("username")
+            messages.success(
+                request,
+                f"Account successfully created for {username}. You can now login using the form below.",
+            )
+            return redirect("login")
+    else:
+        form = UserRegistrationForm()
+
+    context = {"form": form}
+    return render(request, "knowledge_bank/register.html", context)

@@ -5,8 +5,25 @@ from PIL import Image
 
 
 class Article(models.Model):
-    """Article represents the article table in our database.
-    This is the data that users will be able to add, update and read.
+    """
+
+        Article represents knowledge article that is published by a user.
+
+    Attributes:
+        title : str
+                        Title of article.
+
+        content: str
+                        Content of article.
+
+                date_posted: DateTimeField
+                        Date and time of creation.
+
+        last_modified: DateTimeField
+                        Date and time of article modification.
+
+        author: User
+                        The user who published the article.
     """
 
     title = models.CharField(max_length=100)
@@ -33,10 +50,26 @@ class Profile(models.Model):
     This model has a one to one relationship with Django's default User model.
 
     Attributes:
-        user (User): A one-to-one relationship with the User model.
-        bio: A short description of the user.
-        image: Stores the users profile image. If none uploaded then default is used.
-        office: The office that the user is based in.
+        user : User
+                        A one-to-one relationship with the User model.
+
+        first_name: str
+                        The users first name.
+
+                second_name: str
+                        The usrs second name.
+
+        bio: str
+                        A short description of the user.
+
+        role: (str,str)
+                        The users job role
+
+        image: str
+                        Stores path to user's profile image. If none uploaded then default is used.
+
+        office: (str,str)
+                        The office that the user is based in.
     """
 
     valid_offices = [
