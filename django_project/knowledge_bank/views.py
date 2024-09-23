@@ -19,14 +19,6 @@ from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from .models import Article, Profile
 
 
-def home(request):
-    """Routes user to the home page where all records will be displayed"""
-    context = {"articles": Article.objects.all()}
-
-    # Load html for home page
-    return render(request, "knowledge_bank/home.html", context)
-
-
 class ArticleListView(ListView):
     """Routes user to page displaying all records. This is achieved through
     the use of Django's ListView Class."""
