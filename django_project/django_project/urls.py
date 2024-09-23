@@ -30,6 +30,10 @@ urlpatterns = [
     path("register/", views.register, name="register"),
     # Route to form for modifying user profile
     path("profile_modify/", views.profile_modify, name="profile-modify"),
+    # Route to article detail view
+    path(
+        "profile/<int:userid>", views.ProfileDetailView.as_view(), name="profile-detail"
+    ),
     # Route to login page
     # redirect_authenticated_user argument ensures that already logged in users are redirected when they try to access login/
     path(

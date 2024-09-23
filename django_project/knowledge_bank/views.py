@@ -104,6 +104,23 @@ class ArticleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user.is_superuser
 
 
+class ProfileDetailView(DetailView):
+    """Routes user to page displaying a selected record. This is achieved through
+    the use of Django's DetailView Class."""
+
+    model = Profile
+    template_name = "knowledge_bank/profile.html"
+
+    def get_object(self):
+        user_id = self.kwargs.get("userid")
+
+        try:
+            return Profile.objects.get(user__id=user_id)
+        except:
+            messages.error(self.request, f"User could not be found")
+            redirect("/")
+
+
 @login_required
 def profile_modify(request):
     """Routes user to their profile page. If they are logged in."""
