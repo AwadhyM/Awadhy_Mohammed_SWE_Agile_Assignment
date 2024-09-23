@@ -5,12 +5,13 @@ from .models import CustomUser
 
 class CustomUserRegistrationForm(UserCreationForm):
 
-    email = forms.EmailField()
+    email = forms.EmailField(required=True)
 
     class Meta:
         model = CustomUser
         fields = [
             "username",
+            "email",
             "first_name",
             "second_name",
             "password1",
