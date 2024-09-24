@@ -1,16 +1,19 @@
 {% extends "knowledge_bank/base.html" %}
 {% block content %}
 		{% for article in articles %}
-		<article class="media content-section">
+		<article class="media content-section border-secondary" >
 			<img class="rounded-circle article-img" src="{{ article.author.image.url }}">
-				  <div class="media-body">
+				  <div class="media-body" >
 					<div class="article-metadata">
 					  <a class="mr-2" href="{% url 'profile-detail' article.author.id %}">{{ article.author }}</a>
 					  <small class="text-muted"> Published on: {{ article.date_posted | date:"d F Y"}}</small></div>
 					  <div><small class="text-muted"> Last modified: {{ article.last_modified | date:"d F Y"}}</small><div/>
+      					<small class="text-muted">Category: {{ article.category}}</small>
 					</div>
 					<h2><a class="text-decoration text-primary" href="{% url 'article-detail' article.id %}">{{ article.title }}</a></h2>
-					<p class="article-content">{{ article.content }}</p>
+					<div class="media content-section">
+					  <p class="article-content border-secondary">{{ article.content }}</p>
+					</div>
 				  </div>
 				  </div>
 				</article>

@@ -9,14 +9,17 @@
       </div>
 		{% if user.is_staff %}
 		<a href="{% url 'article-delete' article.id %}" class="btn btn-danger border border-white ml-3"> Delete Article </a>
-		{% endif %}
 		<br></br>
+		{% endif %}
         {% if object.author == user %}
 		<a href="{% url 'article-update' object.id %}" class="btn btn-primary border border-white ml-3"> Update Article </a>
         {% endif %}
       <h2 class="article-title">{{ object.title }}</h2>
-      <h2 class="article-category">{{ object.category}}</h2>
+      <small class="text-muted">Category: {{ object.category}}</small>
+	  <br></br>
+	  <div class="media content-section">
       <p class="article-content">{{ object.content }}</p>
+	  </div>
     </div>
   </article>
 {% endblock content %}
