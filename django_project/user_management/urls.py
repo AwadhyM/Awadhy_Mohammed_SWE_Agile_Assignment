@@ -7,6 +7,7 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from .views import (
+    CustomUserDeleteView,
     CustomUserUpdateView,
     CustomUserDetailView,
 )
@@ -25,13 +26,16 @@ urlpatterns = [
         ),
         name="login",
     ),
+    # Route to user modification page
     path(
         "profile_modify/<int:userid>",
         CustomUserUpdateView.as_view(),
         name="profile-modify",
     ),
+    # Route to user deletion page
+    path("<int:pk>/delete", CustomUserDeleteView.as_view(), name="profile-delete"),
     # Route to profile detail view
-    path("profile/<int:userid>", CustomUserDetailView.as_view(), name="profile-detail"),
+    path("<int:userid>", CustomUserDetailView.as_view(), name="profile-detail"),
     # Route to logout page
     path("logout/", user_logout, name="logout"),
 ]

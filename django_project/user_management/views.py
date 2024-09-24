@@ -5,6 +5,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
     DetailView,
+    DeleteView,
     UpdateView,
 )
 from .forms import CustomUserRegistrationForm, CustomUserChangeForm
@@ -78,6 +79,44 @@ class CustomUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_object(self):
         return self.request.user
+
+
+class CustomUserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """
+        View for deleting an existing article.
+
+    Inherits from:
+        LoginRequiredMixin: Ensures that the user is logged in.
+        UserPassesTestMixin: Ensures that the user passes a custom test.
+        DeleteView: Provides the ability to delete an existing object.
+
+    Attributes:
+        model : Model
+                        The model that this view will act upon.
+        success_url : str
+                    Where the user is redirected to after completion of delete.
+
+    """
+
+    model = CustomUser
+    template_name = "user_management/user_confirm_delete.html"
+    success_url = "/"
+
+    def test_func(self):
+        """Ensures that user has admin status. As this is a requirement for deletion."""
+        return self.request.user.is_superuser
+
+    def delete(self, request, *args, **kwargs):
+        response = super().delete(request, *args, **kwargs)
+        messages.success(self.request, "User has been successfully removed")
+        return response
+
+    def get_object(self, queryset=None):
+        """Hook to ensure object is the user to be deleted, not the requestor"""
+        obj = super().get_object(queryset)
+        if obj == self.request.user:
+            raise Exception("You cannot delete your own account.")
+        return obj
 
 
 @login_required
