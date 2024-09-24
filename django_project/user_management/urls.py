@@ -21,7 +21,7 @@ urlpatterns = [
     path(
         "login/",
         auth_views.LoginView.as_view(
-            template_name="knowledge_bank/login.html", redirect_authenticated_user=True
+            template_name="user_management/login.html", redirect_authenticated_user=True
         ),
         name="login",
     ),

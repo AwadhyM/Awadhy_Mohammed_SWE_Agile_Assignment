@@ -24,7 +24,7 @@ class CustomUserDetailView(DetailView):
     """
 
     model = CustomUser
-    template_name = "knowledge_bank/profile.html"
+    template_name = "user_management/profile.html"
 
     def get_object(self):
         """Gets the user id which is used in the url."""
@@ -55,7 +55,7 @@ class CustomUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """
 
     model = CustomUser
-    template_name = "knowledge_bank/profile_modify.html"
+    template_name = "user_management/profile_modify.html"
     form_class = CustomUserChangeForm
     success_url = "/"
 
@@ -84,7 +84,7 @@ class CustomUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 def user_logout(request):
     """Routes user to logout page"""
     logout(request)
-    return render(request, "knowledge_bank/logout.html", {})
+    return render(request, "user_management/logout.html", {})
 
 
 def register(request):
@@ -104,4 +104,4 @@ def register(request):
         form = CustomUserRegistrationForm()
 
     context = {"form": form}
-    return render(request, "knowledge_bank/register.html", context)
+    return render(request, "user_management/register.html", context)
