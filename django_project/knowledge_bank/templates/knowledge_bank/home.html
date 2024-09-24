@@ -5,16 +5,16 @@
 			<img class="rounded-circle article-img" src="{{ article.author.image.url }}">
 				  <div class="media-body">
 					<div class="article-metadata">
-						<div><a class="mr-2" href="{% url 'profile-detail' article.author.id %}">{{ article.author }}</a>
+					  <a class="mr-2" href="{% url 'profile-detail' article.author.id %}">{{ article.author }}</a>
 					  <small class="text-muted"> Published on: {{ article.date_posted | date:"d F Y"}}</small></div>
 					  <div><small class="text-muted"> Last modified: {{ article.last_modified | date:"d F Y"}}</small><div/>
 					</div>
 					<h2><a class="text-decoration text-primary" href="{% url 'article-detail' article.id %}">{{ article.title }}</a></h2>
 					<p class="article-content">{{ article.content }}</p>
 				  </div>
+				  </div>
 				</article>
 		{% endfor %}
 {% endblock content %}
 	</body>
 </html>
-  <a href="{% url 'dashboard' %}" class="btn btn-secondary"> Return &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i> </a>

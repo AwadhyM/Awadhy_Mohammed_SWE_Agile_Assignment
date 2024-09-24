@@ -8,6 +8,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import path
 from .views import (
     CustomUserDeleteView,
+    CustomUserListView,
     CustomUserUpdateView,
     CustomUserDetailView,
 )
@@ -38,4 +39,6 @@ urlpatterns = [
     path("<int:userid>", CustomUserDetailView.as_view(), name="profile-detail"),
     # Route to logout page
     path("logout/", user_logout, name="logout"),
+    # Route to user list view
+    path("people/", CustomUserListView.as_view(), name="people-list"),
 ]

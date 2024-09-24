@@ -3,13 +3,34 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import (
-    DetailView,
-    DeleteView,
-    UpdateView,
-)
+from django.views.generic import DetailView, DeleteView, UpdateView, ListView
 from .forms import CustomUserRegistrationForm, CustomUserChangeForm
 from .models import CustomUser
+
+
+class CustomUserListView(ListView):
+    """
+    Displays a list of users.
+
+    This view inherits from Django's builtin ListView. It has been
+    customised to order articles based on date posted with the most
+    recent at the top.
+
+    Attributes:
+            model : Model
+                    The model entities that will be viewed.
+
+            template_name : Str
+                    The template that contains html and css code for display of the records.
+
+            context_object_name : Str
+                    The context variable used for list of objects.
+    """
+
+    template_name = "user_management/people.html"
+    model = CustomUser
+    context_object_name = "users"
+    ordering = ["date_joined"]
 
 
 class CustomUserDetailView(DetailView):
