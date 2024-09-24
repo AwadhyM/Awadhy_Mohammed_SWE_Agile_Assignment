@@ -12,6 +12,7 @@ from .views import (
     ArticleDetailView,
     ArticleUpdateView,
     ArticleDeleteView,
+    ProfileUpdateView,
 )
 from . import views
 
@@ -29,7 +30,11 @@ urlpatterns = [
         ),
         name="login",
     ),
-    path("profile_modify/", views.profile_modify, name="profile-modify"),
+    path(
+        "profile_modify/<int:userid>",
+        ProfileUpdateView.as_view(),
+        name="profile-modify",
+    ),
     # Route to profile detail view
     path(
         "profile/<int:userid>", views.ProfileDetailView.as_view(), name="profile-detail"

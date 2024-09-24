@@ -162,23 +162,47 @@ class ProfileDetailView(DetailView):
             redirect("/")
 
 
-@login_required
-def profile_modify(request):
-    """Routes user to their profile page. If they are logged in."""
-    if request.method == "POST":
-        user_form = CustomUserChangeForm(
-            request.POST, request.FILES, instance=request.user
+class ProfileUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    """
+        View for updating a User account.
+
+    Inherits from:
+        LoginRequiredMixin: Ensures that the user is logged in.
+        UserPassesTestMixin: Ensures that the user passes a custom test.
+        UpdateView: Provides the ability to update an existing object.
+
+    Attributes:
+        model : Model
+                        The model that this view will act upon.
+        fields : list(str)
+                        The fields of the model to be displayed in the form.
+
+    """
+
+    model = CustomUser
+    template_name = "knowledge_bank/profile_modify.html"
+    form_class = CustomUserChangeForm
+    success_url = "/"
+
+    def form_valid(self, form):
+        """Function handles how form is saved"""
+        form.instance.author = self.request.user
+        messages.success(
+            self.request,
+            f"User {self.get_object().username} account successfully updated.",
         )
-        if user_form.is_valid():
-            user_form.save()
-            messages.success(request, f"Account successfully updated.")
-            return redirect("profile-modify")
-    else:
-        user_form = CustomUserChangeForm(instance=request.user)
+        return super().form_valid(form)
 
-    context = {"user_form": user_form}
+    def test_func(self):
+        """Function ensures that only the author of article can edit an article"""
+        custom_user = self.get_object()
+        if self.request.user == custom_user:
+            return True
+        else:
+            return False
 
-    return render(request, "knowledge_bank/profile_modify.html", context)
+    def get_object(self):
+        return self.request.user
 
 
 @login_required
