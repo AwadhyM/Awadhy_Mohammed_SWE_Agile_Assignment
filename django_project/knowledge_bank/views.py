@@ -136,7 +136,7 @@ class ArticleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user.is_superuser
 
 
-class ProfileDetailView(DetailView):
+class CustomUserDetailView(DetailView):
     """
     Displays a single profile for view.
 
@@ -162,7 +162,7 @@ class ProfileDetailView(DetailView):
             redirect("/")
 
 
-class ProfileUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class CustomUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """
         View for updating a User account.
 
