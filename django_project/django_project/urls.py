@@ -24,6 +24,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # Include urls defined in knowledge bank module
     path("", include("knowledge_bank.urls")),
+    path("user/", include("user_management.urls")),
 ]
 
 # If we are currently in debug mode. Then this is how we add media to our url patterns

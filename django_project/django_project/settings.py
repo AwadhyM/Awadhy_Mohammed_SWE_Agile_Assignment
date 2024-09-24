@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "knowledge_bank.apps.KnowledgeBankConfig",
+    "user_management",
     "crispy_forms",
     "crispy_bootstrap4",
     "django.contrib.admin",
@@ -43,7 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 ]
 
-AUTH_USER_MODEL = "knowledge_bank.CustomUser"
+AUTH_USER_MODEL = "user_management.CustomUser"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
