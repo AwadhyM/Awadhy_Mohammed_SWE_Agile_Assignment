@@ -27,6 +27,14 @@ class Article(models.Model):
                         The user who published the article.
     """
 
+    choice_categories = [
+        ("How To", "How To"),
+        ("Discussion", "Discussion"),
+        ("Announcement", "Announcement"),
+        ("Social", "Social"),
+        ("Other", "Other"),
+    ]
+
     title = models.CharField(max_length=100)
     content = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
@@ -34,6 +42,7 @@ class Article(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )  # on_delete argument allows post to be deleted if a user is deleted but not vice versa.
+    category = models.CharField(max_length=12, choices=choice_categories)
 
     def __str__(self):
         """Displays model instance attributes in human readable form"""

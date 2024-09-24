@@ -68,7 +68,11 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     """
 
     model = Article
-    fields = ["title", "content"]
+    fields = [
+        "title",
+        "category",
+        "content",
+    ]
 
     def form_valid(self, form):
         """Function handles how form is saved"""
@@ -94,7 +98,7 @@ class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """
 
     model = Article
-    fields = ["title", "content"]
+    fields = ["title", "content", "category"]
 
     def form_valid(self, form):
         """Function handles how form is saved"""
