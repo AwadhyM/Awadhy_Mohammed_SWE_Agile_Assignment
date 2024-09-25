@@ -13,10 +13,10 @@ class CustomUser(AbstractUser):
     ]
 
     valid_roles = [
-        ("AP", "Apprentice Software Engineer"),
-        ("SWE", "Software Engineer"),
-        ("SR", "Senior Software Engineer"),
-        ("ST", "Staff Software Engineer"),
+        ("Apprentice Software Engineer", "AP"),
+        ("Software Engineer", "SWE"),
+        ("Senior Software Engineer", "SR"),
+        ("Staff Software Engineer", "ST"),
     ]
     first_name = models.CharField(max_length=25, blank=False, null=False)
     second_name = models.CharField(max_length=25, blank=False, null=False)
@@ -24,7 +24,7 @@ class CustomUser(AbstractUser):
     bio = models.CharField(max_length=250, default="User hasn't written a bio yet!")
     image = models.ImageField(default="default.jpg", upload_to="profile_pics")
     office = models.CharField(max_length=4, choices=valid_offices)
-    role = models.CharField(max_length=4, choices=valid_roles)
+    role = models.CharField(max_length=50, choices=valid_roles)
 
     def __save__(self):
         """Overrides default save method."""
