@@ -29,6 +29,7 @@ class Article(models.Model):
 
     choice_categories = [
         ("How To", "How To"),
+        ("Info", "Info"),
         ("Discussion", "Discussion"),
         ("Announcement", "Announcement"),
         ("Social", "Social"),
@@ -36,7 +37,7 @@ class Article(models.Model):
     ]
 
     title = models.CharField(max_length=100)
-    content = models.TextField(max_length=300)
+    content = models.TextField(max_length=800)
     date_posted = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(

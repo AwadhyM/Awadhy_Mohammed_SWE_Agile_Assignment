@@ -17,7 +17,7 @@
           <p class="text-secondary"> About me: {{ object.bio }}</p>
           <p class="text-secondary"> Job Title: {{ object.role }}</p>
           <p class="text-secondary"> Office: {{ object.office }}</p>
-          <p class="text-secondary"> Join Date: {{ object.second_name }}</p>
+          <p class="text-secondary"> Join Date: {{  user.date_joined | date:"d F Y"  }}</p>
         </div>
       </div>
     </div>
