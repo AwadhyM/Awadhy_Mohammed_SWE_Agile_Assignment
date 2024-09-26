@@ -14,7 +14,7 @@ from django.views.generic.edit import CreateView
 from .models import Article
 
 
-class ArticleListView(ListView):
+class ArticleListView(LoginRequiredMixin, ListView):
     """
     Displays a list of articles.
 
@@ -34,6 +34,7 @@ class ArticleListView(ListView):
     """
 
     template_name = "knowledge_bank/home.html"
+    login_url = "user/login/"
     model = Article
     context_object_name = "articles"
     ordering = ["-date_posted"]
