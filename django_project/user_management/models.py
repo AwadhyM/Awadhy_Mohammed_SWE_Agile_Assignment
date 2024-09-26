@@ -4,6 +4,14 @@ from PIL import Image
 
 
 class CustomUser(AbstractUser):
+    """
+    CustomUser represents each individual user of the application. The class is named
+    CustomUser because it is an extension of Django's built in User class.
+
+    This class inherits from AbstractUser class and thus contains all of Django's
+    built in User class attributes such as Username.
+
+    """
 
     valid_offices = [
         ("CAM", "Cambridge"),
