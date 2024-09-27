@@ -23,14 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
-
+# This SECRET Key is used during local build not production
+SECRET_KEY = "django-insecure-lc0!4=_$y)fp3i086b&)=p*&@k5&86ac9fmixbg!p$#(k+i#7c"
 # SECURITY WARNING: don't run with debug turned on in production!
-# Environ variable is named DEBUB and returns false by default.
-# If its true then it equals TRUE
-DEBUG = os.environ.get("DEBUG", "False") == "true"
-
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
@@ -85,16 +80,23 @@ WSGI_APPLICATION = "django_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
+# If environment variable has been set then debug will be set to False
+if os.environ.get("DEBUG") is None:
+    DEBUG = True
+else:
+    DEBUG = False
 
-database_url = os.environ.get("DATABASE_URL")
+DATABASES = {}
+
+database_url = "postgresql://awadhym_swe_agile_psql_user:vFHTYUVipSnx7gVQfuPBs26tf8u5kJAY@dpg-crqpf08gph6c739ctoh0-a.oregon-postgres.render.com/awadhym_swe_agile_psql"
+
+if DEBUG is not True:
+    ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+    SECRET_KEY = os.environ.get("SECRET_KEY")
+    database_url = os.environ.get("DATABASE_URL")
+
+ALLOWED_HOSTS = []
 DATABASES["default"] = dj_database_url.parse(database_url)
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
